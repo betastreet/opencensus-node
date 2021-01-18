@@ -23,6 +23,8 @@ export declare function createMetricDescriptorData(metricDescriptor: OCMetricDes
  * uploaded to StackDriver.
  */
 export declare function createTimeSeriesList(metric: Metric, monitoredResource: MonitoredResource, metricPrefix: string): TimeSeries[];
+/** Returns an array with arrays of the given size. */
+export declare function partitionList(list: TimeSeries[], chunkSize: number): TimeSeries[][];
 /** Creates Metric type. */
 declare function createMetricType(name: string, metricPrefix: string): string;
 /** Creates Metric display name. */

@@ -52,6 +52,7 @@ export declare class StackdriverStatsExporter implements StatsEventListener {
      * @param metricsList The List of Metric.
      */
     private createTimeSeries;
+    private _createTimeSeries;
     /**
      * Creates a new metric descriptor.
      * @param metricDescriptor The OpenCensus MetricDescriptor.

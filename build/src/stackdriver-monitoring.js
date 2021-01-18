@@ -35,6 +35,9 @@ const OC_USER_AGENT = {
 const OC_HEADER = {
     'x-opencensus-outgoing-request': 0x1,
 };
+// Stackdriver Monitoring v3 only accepts up to 200 TimeSeries per
+// CreateTimeSeries call.
+const MAX_BATCH_EXPORT_SIZE = 200;
 googleapis_1.google.options({ headers: OC_HEADER });
 const monitoring = googleapis_1.google.monitoring('v3');
 let auth = google_auth_library_1.auth;
@@ -141,6 +144,13 @@ class StackdriverStatsExporter {
             if (timeSeries.length === 0) {
                 return Promise.resolve();
             }
+            for (const batchedTimeSeries of stackdriver_monitoring_utils_1.partitionList(timeSeries, MAX_BATCH_EXPORT_SIZE)) {
+                this._createTimeSeries(batchedTimeSeries);
+            }
+        });
+    }
+    _createTimeSeries(timeSeries) {
+        return __awaiter(this, void 0, void 0, function* () {
             return this.authorize().then(authClient => {
                 const request = {
                     name: `projects/${this.projectId}`,

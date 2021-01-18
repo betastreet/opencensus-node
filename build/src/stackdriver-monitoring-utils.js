@@ -67,6 +67,15 @@ function createTimeSeriesList(metric, monitoredResource, metricPrefix) {
     return timeSeriesList;
 }
 exports.createTimeSeriesList = createTimeSeriesList;
+/** Returns an array with arrays of the given size. */
+function partitionList(list, chunkSize) {
+    const results = [];
+    while (list.length) {
+        results.push(list.splice(0, chunkSize));
+    }
+    return results;
+}
+exports.partitionList = partitionList;
 /** Creates Metric type. */
 function createMetricType(name, metricPrefix) {
     return path.join(metricPrefix, name);
